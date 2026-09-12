@@ -1,0 +1,20 @@
+[
+  { "label": "Church Cathedral", "value": "church_cathedral" },
+  { "label": "Anglican Church", "value": "anglican_church" },
+  { "label": "Baptist Church", "value": "baptist_church" },
+  { "label": "Catholic Church", "value": "catholic_church" },
+  { "label": "Episcopal Church", "value": "episcopal_church" },
+  { "label": "Evangelical Church", "value": "evangelical_church" },
+  { "label": "Jehovahs Witness Kingdom Hall", "value": "jehovahs_witness_kingdom_hall" },
+  { "label": "Pentecostal Church", "value": "pentecostal_church" },
+  { "label": "Mission", "value": "mission" },
+  { "label": "Buddhist Temple", "value": "buddhist_temple" },
+  { "label": "Convents And Monasteries", "value": "convents_and_monasteries" },
+  { "label": "Hindu Temple", "value": "hindu_temple" },
+  { "label": "Mosque", "value": "mosque" },
+  { "label": "Religious Destination", "value": "religious_destination" },
+  { "label": "Shinto Shrines", "value": "shinto_shrines" },
+  { "label": "Sikh Temple", "value": "sikh_temple" },
+  { "label": "Synagogue", "value": "synagogue" },
+  { "label": "Temple", "value": "temple" }
+]

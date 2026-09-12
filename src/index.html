@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amita:wght@400;700&family=Sansita+Swashed:wght@300..900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Sacramento&family=Titan+One&display=swap" rel="stylesheet">  
+    <link rel="stylesheet" href="./style.css">
+    <title>Overture Travel Manager</title>
+    <style>
+     .hide {
+    display: none; 
+}
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="title-area">
+      <div class= "logo-area">
+        <spam class="image-wrapper">
+      <img class="logo-image" src="./images/coconut tree.png"/>
+      </spam>
+      <p class="title">Overture Travel Manager</p>
+      </div>
+      </div>
+
+
+      <div class="intro-area" >
+        <i>Discover amazing places to visit on your trip — whether you're looking for accommodation, sightseeing spots, or unique local experiences, we've got you covered. Check out our top five special hand picked tourists 
+          destinations <a href="#myAPI">"HERE"</a>.</i>
+      </div>
+
+     <div class="navArea">
+      <span class="navCover">
+         <img
+          src="https://cdn-icons-png.flaticon.com/512/869/869869.png"
+          alt="Sun"
+          width="100"
+          class="sunAnimation"
+        />
+    <nav>
+      <ul class="nav-list">
+        <li><a href="#selectors" class="nav-item">Selectors</a></li>
+        <li><a href="#placeInfo" class="nav-item">Place Info</a></li>
+        <li><a href="#myAPI" class="nav-item">API Info</a></li>
+      </ul>
+    </nav>
+     <img
+          src="https://cdn-icons-png.flaticon.com/512/869/869869.png"
+          alt="Sun"
+          width="100"
+          class="sunAnimation"
+        />
+    </span>
+      </div>
+
+      <div style="display: flex; align-items: center; justify-content: space-between;" id="selectors">
+        <div class="category-container">
+          <p class="place-select-label">Select a Place Category</p>
+        <div class="category">
+          <img src="./images/Accomodation.png"class="category-image"/>
+          <select class="accomodation-select"></select>
+        </div>
+
+      <div class="category">
+          <img src="./images/Active Life.png"class="category-image"/>
+          <select class="activeLife-select"></select>
+        </div>
+
+      <div class="category">
+          <img src="./images/Arts and Entertainment.png"class="category-image"/>
+          <select class="artsAndEntertainment-select"></select>
+        </div>
+
+        <div class="category">
+          <img src="./images/Attractions and Activities.png"class="category-image"/>
+          <select class="attractionsAndActivities-select"></select>
+        </div>
+
+      <div class="category">
+          <img src="./images/Automotive.png"class="category-imager"/>
+          <select class="automotive-select"></select>
+        </div>
+
+      <div class="category">
+          <img src="./images/Beauty and Spa.png"class="category-image"/>
+          <select class="beautyAndSpa-select"></select>
+        </div>
+
+        <div class="category">
+          <img src="./images/Business to Business.png"class="category-image"/>
+          <select class="businessToBusiness-select"></select>
+        </div>
+
+      <div class="category">
+          <img src="./images/Eat and Drink.png"class="category-image"/>
+          <select class="eatAndDrink-select"></select>
+        </div>
+
+        
+      <div class="category">
+          <img src="./images/Education.png"class="category-image"/>
+          <select class="education-select"></select>
+        </div>
+
+      <div class="category">
+          <img src="./images/Financial Service.png"class="category-image"/>
+          <select class="financialService-select"></select>
+        </div>
+
+        <div class="category">
+          <img src="./images/Health and Medical.png"class="category-image"/>
+          <select class="healthAndMedical-select"></select>
+        </div>
+
+        </div>
+        <div class="middle-area">
+          <div class="topCountryFlagWrapper"></div>
+          <div class="country-category">
+            <p class="place-select-label">Select a Country</p>
+          <img src="./images/Countries.png"class="country-image"/>
+          <select class="country-select"></select>
+        </div>
+      <div class="intro-image-area">
+        <img class="intro-image" src="./images/someone-coding-a-geo-app.png" alt="someone-coding-a-geo-app"/>
+      </div>
+      </div>
+       <div class="category-container">
+         <p class="place-select-label">Select a Place Category</p>
+    <div class="category">
+          <img src="./images/Home Service.png"class="category-image"/>
+          <select class="homeService-select"></select>
+        </div>
+
+         <div class="category">
+          <img src="./images/Mass Media.png"class="category-image"/>
+          <select class="massMedia-select"></select>
+        </div>
+
+         <div class="category">
+          <img src="./images/Pets.png"class="category-image"/>
+          <select class="pet-select"></select>
+        </div>
+
+        <div class="category">
+          <img src="./images/Private Establishments and Corporations.png"class="category-image"/>
+          <select class="privateCorporations-select"></select>
+        </div>
+
+      <div class="category">
+          <img src="./images/Professional Service.png"class="category-imager"/>
+          <select class="professionalServices-select"></select>
+        </div>
+
+        <div class="category">
+          <img src="./images/Public Service and Government Services.png"class="category-imager"/>
+          <select class="publicServiceAndGovernment-select"></select>
+        </div>
+
+      <div class="category">
+          <img src="./images/Real Estate.png"class="category-imager"/>
+          <select class="realEstate-select"></select>
+        </div>
+
+        <div class="category">
+          <img src="./images/Religious Organization.png"class="category-imager"/>
+          <select class="religiousOrganization-select"></select>
+        </div>
+
+      <div class="category">
+          <img src="./images/Retail.png"class="category-imager"/>
+          <select class="retail-select"></select>
+        </div>
+
+      <div class="category">
+          <img src="./images/Travel.png"class="category-imager"/>
+          <select class="travel-select"></select>
+        </div>
+
+       
+
+        </div>
+      </div>
+
+      <div class="info-area">
+
+
+        <div class="place-info" id="placeInfo">
+          
+          <div class="place-details">
+           <p class="place-info-title">Place Info</p>
+           <div class="place-table-wrapper" id="placeDetails">
+            <div class="countryFlagWrapper"></div>
+            <a href="#selectors" class="place-alt-link">Select a Place Category</a>
+            </div>
+           </div>
+          </div>
+        </div>
+
+        <div class="api-info" id="myAPI">
+          <div class="api-details">
+            <p class="api-info-title">API Info</p>
+           <div class="api-table-wrapper">
+
+            <div class="api-gen-table-wrapper">
+            <table class="api-gen-table" style="border-collapse: collapse;">
+              <caption style="color: rgb(15, 76, 117); background-color: #ffd369; font-family: Sacramento; font-size: 35px; border: 1px solid #ffff; font-weight: 700;">Create your API Key</caption>
+              <tr>
+                <th style="color: rgb(15, 76, 117); text-align: left; border: 1px solid #ffff; font-weight: 700;">API KEY NAME:</th>
+                <td style="color: rgb(15, 76, 117); text-align: left; border: 1px solid #ffff; padding: 5px;"><input class="keyName" title="Enter Key Name" placeholder="Enter Key Name" style="background-color: #ffd369; color: rgb(15, 76, 117); font-size: 14px; border: none; font-family: Comic Sans MS; font-weight: 700;"/></td>
+              </tr>
+              <tr>
+                <th style="color: rgb(15, 76, 117); text-align: left; border: 1px solid #ffff; font-weight: 700;">CUSTOM ACCOUNT ID:</th>
+                <td style="color: rgb(15, 76, 117); text-align: left; border: 1px solid #ffff; padding: 5px"><input class="keyId" title="Enter Custom Account ID" placeholder="Enter Custom Account ID" style="background-color: #ffd369; color: rgb(15, 76, 117); font-size: 14px; border: none; font-family: Comic Sans MS; font-weight: 700"/></td>
+              </tr>
+              <tr>
+                <th style="color: rgb(15, 76, 117); text-align: left; border: 1px solid #ffff; font-weight: 700;">CUSTOM META DATA:</th>
+                <td style="color: rgb(15, 76, 117); text-align: left; border: 1px solid #ffff; padding: 5px"><input class="keyMetaData" title="Enter Custom Meta Data" placeholder="Enter Custom Meta Data" style="background-color: #ffd369; color: rgb(15, 76, 117); font-size: 14px; border: none; font-family: Comic Sans MS; font-weight: 700"/></td>
+              </tr>
+            </table>
+            <button class="api-gen-table-wrapper-button" style="padding: 10px 5px; border-radius: 20px; font-family: Comic Sans MS; font-weight: 700; border: 1px solid #ffff; cursor: pointer;">Create API Key</button>
+            </div>
+
+
+
+            <div class="api-view-table-wrapper"></div>
+            <div class="api-use-table-wrapper">
+                  <table class="api-gen-table" style="border-collapse: collapse;">
+              <caption style="color: rgb(15, 76, 117); background-color: #ffd369; font-family: Sacramento; font-size: 35px; border: 1px solid #ffff; font-weight: 700;">Use your API Key</caption>
+              <tr>
+                <th style="color: rgb(15, 76, 117); text-align: left; border: 1px solid #ffff; font-weight: 700;">API ENDPOINT:</th>
+                <td style="color: rgb(15, 76, 117); text-align: left; border: 1px solid #ffff; font-weight: 700; padding: 5px">https://overture-travel-manager-backend-vmhx.onrender.com/api/images/getImages</td>
+              </tr>
+              <tr>
+                <th style="color: rgb(15, 76, 117); text-align: left; border: 1px solid #ffff; font-weight: 700;">x-api-key:</th>
+                <td style="color: rgb(15, 76, 117); text-align: left; border: 1px solid #ffff; font-weight: 700; padding: 5px"><input class="keyValue" title="Enter Api Key" placeholder="Enter Api Key" style="background-color: #ffd369; width: 100%; color: rgb(15, 76, 117); font-size: 14px; border: none; font-family: Comic Sans MS; font-weight: 700"/></td>
+              </tr>
+              <tr>
+                <th style="color: rgb(15, 76, 117); text-align: left; border: 1px solid #ffff; font-weight: 700;">REQUEST METHOD:</th>
+                <td style="color: rgb(15, 76, 117); text-align: left; border: 1px solid #ffff; font-weight: 700; padding: 5px">GET</td>
+              </tr>
+               <tr>
+                <th style="color: rgb(15, 76, 117); text-align: left; border: 1px solid #ffff; font-weight: 700;">REMARK:</th>
+                <td style="color: rgb(15, 76, 117); text-align: left; border: 1px solid #ffff; font-weight: 700; padding: 5px">Feel free to try it out on Postman, also check out the json response in your browser console</td>
+              </tr>
+            </table>
+            <button class="api-use-table-wrapper-button" style="padding: 10px 5px; border-radius: 20px; font-family: Comic Sans MS; font-weight: 700; border: 1px solid #ffff; cursor: pointer;">Get Images</button>
+            </div>
+            <div class="image-gallery-wrapper">
+             <ul class="image-gallery">
+
+             </ul>
+            </div>
+         
+            
+            
+           </div>
+          </div>
+        </div>
+
+
+    </div>
+    </div>
+
+    <script src="index.js" type="module"></script>
+  </body>
+</html>

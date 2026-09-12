@@ -1,0 +1,19 @@
+[
+  { "label": "Bridge", "value": "bridge" },
+  { "label": "Canal", "value": "canal" },
+  { "label": "Dam", "value": "dam" },
+  { "label": "Desert", "value": "desert" },
+  { "label": "Forest", "value": "forest" },
+  { "label": "Geologic Formation", "value": "geologic_formation" },
+  { "label": "Island", "value": "island" },
+  { "label": "Mountain", "value": "mountain" },
+  { "label": "Natural Hot Springs", "value": "natural_hot_springs" },
+  { "label": "Nature Reserve", "value": "nature_reserve" },
+  { "label": "Pier", "value": "pier" },
+  { "label": "Public Plaza", "value": "public_plaza" },
+  { "label": "Quay", "value": "quay" },
+  { "label": "River", "value": "river" },
+  { "label": "Skyscraper", "value": "skyscraper" },
+  { "label": "Tower", "value": "tower" },
+  { "label": "Weir", "value": "weir" }
+]

@@ -1,0 +1,58 @@
+[
+    {
+        "label":"Bed and Breakfast",
+        "value":"bed_and_breakfast"
+    },
+    {   "label":"Cabin",
+        "value":"cabin"
+    },
+     {   "label":"Campground",
+        "value":"campground"
+    },
+     {   "label":"Cottage",
+        "value":"cottage"
+    },
+    {
+       "label":"Health Retreats",
+        "value":"health_retreats"
+    },
+      {   "label":"Hostel",
+          "value":"hostel"
+    },
+     {   "label":"Hotel",
+        "value":"hotel"
+    },
+    {
+       "label":"Inn",
+        "value":"inn"
+    },
+     {
+       "label":"Lodge",
+        "value":"lodge"
+    },
+     {
+       "label":"Motel",
+        "value":"motel"
+    },
+     {
+       "label":"Mountain Huts",
+        "value":"mountain_huts"
+    },
+    {
+       "label":"Resort",
+        "value":"resort"
+    },
+     {
+       "label":"Beach Resort",
+        "value":"beach_resort"
+    },
+     {
+       "label":"RV Park",
+        "value":"rv_park"
+    },
+      {
+       "label":"Service Apartments",
+        "value":"service_apartments"
+    }
+]
+
