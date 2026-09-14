@@ -1,58 +1,102 @@
 [
     {
-        "label":"Bed and Breakfast",
-        "value":"bed_and_breakfast"
-    },
-    {   "label":"Cabin",
-        "value":"cabin"
-    },
-     {   "label":"Campground",
-        "value":"campground"
-    },
-     {   "label":"Cottage",
-        "value":"cottage"
+        "label": "Bed and Breakfast",
+        "value": "bed_and_breakfast"
     },
     {
-       "label":"Health Retreats",
-        "value":"health_retreats"
-    },
-      {   "label":"Hostel",
-          "value":"hostel"
-    },
-     {   "label":"Hotel",
-        "value":"hotel"
+        "label": "Cabin",
+        "value": "cabin"
     },
     {
-       "label":"Inn",
-        "value":"inn"
-    },
-     {
-       "label":"Lodge",
-        "value":"lodge"
-    },
-     {
-       "label":"Motel",
-        "value":"motel"
-    },
-     {
-       "label":"Mountain Huts",
-        "value":"mountain_huts"
+        "label": "Campground",
+        "value": "campground"
     },
     {
-       "label":"Resort",
-        "value":"resort"
+        "label": "Cottage",
+        "value": "cottage"
     },
-     {
-       "label":"Beach Resort",
-        "value":"beach_resort"
+    {
+        "label": "Country House",
+        "value": "country_house"
     },
-     {
-       "label":"RV Park",
-        "value":"rv_park"
+    {
+        "label": "Holiday Park",
+        "value": "holiday_park"
     },
-      {
-       "label":"Service Apartments",
-        "value":"service_apartments"
+    {
+        "label": "Hostel",
+        "value": "hostel"
+    },
+    {
+        "label": "Hotel",
+        "value": "hotel"
+    },
+    {
+        "label": "Motel",
+        "value": "motel"
+    },
+    {
+        "label": "Houseboat",
+        "value": "houseboat"
+    },
+    {
+        "label": "Inn",
+        "value": "inn"
+    },
+    {
+        "label": "Lodge",
+        "value": "lodge"
+    },
+    {
+        "label": "Mountain Hut",
+        "value": "mountain_hut"
+    },
+    {
+        "label": "Private Lodging",
+        "value": "private_lodging"
+    },
+    {
+        "label": "Guest House",
+        "value": "guest_house"
+    },
+    {
+        "label": "Holiday Rental Home",
+        "value": "holiday_rental_home"
+    },
+    {
+        "label": "Resort",
+        "value": "resort"
+    },
+    {
+        "label": "Beach Resort",
+        "value": "beach_resort"
+    },
+    {
+        "label": "Ski Resort",
+        "value": "ski_resort"
+    },
+    {
+        "label": "Retreat",
+        "value": "retreat"
+    },
+    {
+        "label": "Health Retreat",
+        "value": "health_retreat"
+    },
+    {
+        "label": "RV Park",
+        "value": "rv_park"
+    },
+    {
+        "label": "Ryokan",
+        "value": "ryokan"
+    },
+    {
+        "label": "Self Catering Accommodation",
+        "value": "self_catering_accommodation"
+    },
+    {
+        "label": "Service Apartment",
+        "value": "service_apartment"
     }
 ]
-

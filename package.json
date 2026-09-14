@@ -1,12 +1,12 @@
 {
-  "name": "parcel-project-template",
+  "name": "overture-lodging-explorer",
   "version": "2.0.0",
   "type": "module",
-  "description": "",
-  "homepage": "https://Dreamer-Paprika.github.io/Overture-Lodging-Explorer/",
+  "description": "Overture Lodging Explorer",
+  "homepage": "https://Dreamer-Paprika.github.io/Overture-Travel-Manager/",
   "scripts": {
     "start": "parcel src/*.html --no-cache",
-    "build": "parcel build src/*.html --public-url /Overture-Lodging-Explorer/"
+    "build": "parcel build src/*.html --public-url /Overture-Travel-Manager/"
   },
   "repository": {
     "type": "git",
@@ -22,8 +22,7 @@
     "axios": "^1.6.2",
     "modern-normalize": "^1.1.0",
     "notiflix": "^3.2.6",
-    "slim-select": "^2.7.0",
-    "theauthapi": "^1.0.17"
+    "slim-select": "^2.7.0"
   },
   "devDependencies": {
     "@parcel/transformer-sass": "^2.6.0",

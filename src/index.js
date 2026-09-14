@@ -1,9 +1,6 @@
 import Notiflix from 'notiflix';
-import { findPlaces } from './places-api.js';
-import { createApiKey } from './theauthapi.js';
-import { getImages } from './images-api.js';
+import { findPlaces, findLodgingNearPlace } from './places-api.js';
 import { findFlag } from './country-flag.js';
-import { findInfo } from './country-info.js';
 import { fetchCatBreeds } from './cat-api.js';
 import { fetchDogBreeds } from './dog-api.js';
 
@@ -31,7 +28,6 @@ import religiousOrganizationCategories from './religious_organization.json';
 import retailCategories from './retail.json';
 import publicServiceAndGovernmentCategories from './public_service_and_government.json';
 import travelCategories from './travel.json';
-import Countries from './countries_sorted_alphabetical.json';
 
 
 const countryFlagImageWrapper = document.querySelector('.countryFlagWrapper');
@@ -142,8 +138,8 @@ const placeArea = document.createElement('div');
 const placeTable = document.createElement('table');
 const placeTableHead = document.createElement('thead');
 placeTableHead.innerHTML = `<tr>
-<th style="color: #0F4C75; text-align: center; border: 1px solid #ffff; font-weight: 700;"><h3>Place Name</h3></th>
-<th style="color: #0F4C75; text-align: center; border: 1px solid #ffff; font-weight: 700;"><h3>Social Link</h3></th>
+<th class="place-results-heading"><h3>Place Name</h3></th>
+<th class="place-results-heading"><h3>Social Link</h3></th>
 </tr>`;
 const placeTableBody = document.createElement('tbody');
 const placeDetails = document.createElement('div');
@@ -164,104 +160,16 @@ placeTable.append(placeTableHead);
 placeTable.append(placeTableBody);
 placeArea.append(placeDetails);
 
-placeDetails.innerHTML = `<div style="display: flex; align-items: center; justify-content: center; width: 100%; height:100%;">
-<div style="background-color: #49e2e6; color: #ffff; border: 1px solid #ffff; padding: 30px; border-radius: 10px; text-shadow: 3px 3px 20px #721111, 5px 5px 5px #000;">Click on a Place Name</div>
-</div>`;
+placeDetails.innerHTML = `
+  <div class="place-details-placeholder">Click on a Place Name</div>
+`;
 
 
 let dogBreeds;
 let catBreeds;
-let selectedPlace;
-
-const apiGenTable = document.querySelector('.api-gen-table-wrapper');
-
-const apiViewTable = document.querySelector('.api-view-table-wrapper');
-
-const apiUseTable = document.querySelector('.api-use-table-wrapper');
-
-apiUseTable.style.display = "none";
-
-
-const keySideEffects = () => {
-  if (JSON.parse(localStorage.getItem('myApiKey'))) {
-    const keyDetails = JSON.parse(localStorage.getItem('myApiKey'));
-    apiGenTable.style.display = 'none';
-
-    const userLocale = navigator.language; // e.g., "en-US" or "fr-FR"
-    const myDate = new Date(keyDetails.createdAt);
-
-    const formatter = new Intl.DateTimeFormat(userLocale, {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit',
-      second: '2-digit', // Optional: include seconds
-      hour12: true, // Optional: use 12-hour clock (set to false for 24-hour clock)
-    });
-    const createdDate = formatter.format(myDate);
-
-    apiViewTable.innerHTML = `
-     <table class="api-view-table" style="border-collapse: collapse; background-color: #ffd369; border: 1px solid #ffff;">
-              <caption style="color: rgb(15, 76, 117); font-family: Sacramento; background-color: #ffd369; font-size: 35px; border: 1px solid #ffff; font-weight: 700;">View your API Details</caption>
-              <tr>
-                <th style="color: rgb(15, 76, 117); text-align: left; border: 1px solid #ffff; font-weight: 700;">API KEY NAME:</th>
-                <td style="color: rgb(15, 76, 117); text-align: left; border: 1px solid #ffff;">${keyDetails.name}</td>
-              </tr>
-              <tr>
-                <th style="color: rgb(15, 76, 117); text-align: left; border: 1px solid #ffff; font-weight: 700;">API KEY:</th>
-                <td style="color: rgb(15, 76, 117); text-align: left; border: 1px solid #ffff;">${keyDetails.key}</td>
-              </tr>
-              <tr>
-                <th style="color: rgb(15, 76, 117); text-align: left; border: 1px solid #ffff; font-weight: 700;">CUSTOM ACCOUNT ID:</th>
-                <td style="color: rgb(15, 76, 117); text-align: left; border: 1px solid #ffff;">${keyDetails.customAccountId}</td>
-              </tr>
-
-              <tr>
-                <th style="color: rgb(15, 76, 117); text-align: left; border: 1px solid #ffff; font-weight: 700;">CUSTOM METADATA:</th>
-                <td style="color: rgb(15, 76, 117); text-align: left; border: 1px solid #ffff;">${keyDetails.customMetaData.metadata_val}</td>
-              </tr>
-
-              <tr>
-                <th style="color: rgb(15, 76, 117); text-align: left; border: 1px solid #ffff; font-weight: 700;">CREATED AT:</th>
-                <td style="color: rgb(15, 76, 117); text-align: left; border: 1px solid #ffff;">${createdDate}</td>
-              </tr>
-            </table>
-  `;
-    
-apiUseTable.style.display = 'flex';
-  }
-}
-
-keySideEffects();
-
-/*if (localStorage.getItem('hasKey') === null) {
-  apiViewTable.style.display = 'none';
-}*/
-
-const keyName = document.querySelector('.keyName');
-const keyId = document.querySelector('.keyId');
-const keyMetaData = document.querySelector('.keyMetaData');
-
-const apiGenTableButton = document.querySelector('.api-gen-table-wrapper-button');
-
-const apiUseTableButton = document.querySelector(".api-use-table-wrapper-button");
-
-const keyValue = document.querySelector('.keyValue');
-
-const imageGallery = document.querySelector('.image-gallery');
-
-const apiDetailsArea = document.querySelector('.api-details');
-
 let selectedCountry = null;
 
-let selectedCountryName = null;
-
 let placesArray;
-
-let myPlaceObj;
-
-let countryFlag;
 
 let countryDogBreeds;
 
@@ -273,96 +181,651 @@ let countryCatBreedsElement;
 
 let allPetBreeds;
 
-window.selectPlace = (event) => {
-  
-  const id = event.currentTarget.getAttribute('data-id');
-  myPlaceObj = placesArray.find(place => place.id === id);
-  const mySelectedCountry = Countries.find(country => country.alpha_2 === selectedCountry);
-  //console.log(myPlaceObj);
-  placeDetails.innerHTML = `<div style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 20px; border-radius: 30px; border: 1px solid #0F4C75; padding: 20px; ">
-                         
-                         <div style="display: flex; flex-direction: column; gap:15px; align-items: center; ">
-                         
-                         <table style="border-collapse: collapse; width: 500px;">
+// -----------------------------------------------------------------------------
+// OVERTURE LODGING EXPLORER
+// -----------------------------------------------------------------------------
+// The following helpers power the new feature without changing the original
+// Travel Manager search flow.
+//
+// Important terminology:
+// - "L0 lodging" means the top-level `lodging` group from the February 2026
+//   Overture taxonomy supplied with this project.
+// - "New Primary Category" means the most specific primary category in the
+//   new Overture taxonomy, normally available at:
+//       place.properties.taxonomy.primary
+// - We calculate percentages from the lodging records returned for the
+//   selected radius. The percentage denominator is therefore the total number
+//   of nearby lodging records returned by Overture.
 
-                         <tr>
-                        <th style="color: #0F4C75; text-align: left; border: 1px solid #ffff; font-weight: 700; width:120px;"><h3>Place Name:</h3></th>
-                        <td style="color: #0F4C75; text-align: left; border: 1px solid #ffff;">  ${
-                          myPlaceObj?.properties?.names?.primary ?? 'Unknown'
-                        }</td>
-                        </tr>
+const lodgingRadiusInput = document.querySelector('.lodging-radius-input');
+const analyzeLodgingButton = document.querySelector('.analyze-lodging-button');
+const lodgingAnalysisStatus = document.querySelector('.lodging-analysis-status');
+const nearbyLodgesTableBody = document.querySelector('.nearby-lodges-table-body');
+const nearbyLodgesCount = document.querySelector('.nearby-lodges-count');
+const nearbyLodgeDetailPanel = document.querySelector('.nearby-lodge-detail-panel');
 
-                           <tr>
-                        <th style="color: #0F4C75; text-align: left; border: 1px solid #ffff; font-weight: 700; width:120px;"><h3>Category:</h3></th>
-                        <td style="color: #0F4C75; text-align: left; border: 1px solid #ffff;">${
-                          myPlaceObj.properties.addresses[0].freeform
-                            ? myPlaceObj.properties.categories.primary
-                            : 'Null'
-                        }</td>
-                        </tr>
+let selectedPlaceForLodgingAnalysis = null;
 
-                        <tr>
-                        <th style="color: #0F4C75; text-align: left; border: 1px solid #ffff; font-weight: 700; width:120px;"><h3>Freeform:</h3></th>
-                        <td style="color: #0F4C75; text-align: left; border: 1px solid #ffff;">${
-                          myPlaceObj.properties.addresses[0].freeform
-                            ? myPlaceObj.properties.addresses[0].freeform
-                            : 'Null'
-                        }</td>
-                        </tr>
+/**
+ * Safely get the coordinates from an Overture Place.
+ *
+ * The API returns point geometry. We support the normal GeoJSON-style
+ * `geometry.coordinates` shape and a few defensive fallbacks so the UI does
+ * not break if a response uses a slightly different representation.
+ */
+function getPlaceCoordinates(place) {
+  const coordinates = place?.geometry?.coordinates;
 
-                          <tr>
-                        <th style="color: #0F4C75; text-align: left; border: 1px solid #ffff; font-weight: 700; width:120px;"><h3>Locality:</h3></th>
-                        <td style="color: #0F4C75; text-align: left; border: 1px solid #ffff;">${
-                          myPlaceObj.properties.addresses[0].locality
-                            ? myPlaceObj.properties.addresses[0].locality
-                            : 'Null'
-                        }</td>
-                        </tr>
+  if (Array.isArray(coordinates) && coordinates.length >= 2) {
+    const longitude = Number(coordinates[0]);
+    const latitude = Number(coordinates[1]);
 
-                         <tr>
-                        <th style="color: #0F4C75; text-align: left; border: 1px solid #ffff; font-weight: 700; width:120px;"><h3>Postal Code:</h3></th>
-                        <td style="color: #0F4C75; text-align: left; border: 1px solid #ffff;">${
-                          myPlaceObj.properties.addresses[0].postcode
-                            ? myPlaceObj.properties.addresses[0].postcode
-                            : 'Null'
-                        }</td>
-                        </tr>
+    if (Number.isFinite(latitude) && Number.isFinite(longitude)) {
+      return { latitude, longitude };
+    }
+  }
 
-                          <tr>
-                        <th style="color: #0F4C75; text-align: left; border: 1px solid #ffff; font-weight: 700; width:120px;"><h3>Reigon:</h3></th>
-                        <td style="color: #0F4C75; text-align: left; border: 1px solid #ffff;">${
-                          myPlaceObj.properties.addresses[0].region
-                            ? myPlaceObj.properties.addresses[0].region
-                            : 'Null'
-                        }</td>
-                        </tr>
+  // Some responses may expose latitude/longitude directly.
+  const latitude = Number(
+    place?.geometry?.latitude ??
+      place?.latitude ??
+      place?.properties?.latitude
+  );
+  const longitude = Number(
+    place?.geometry?.longitude ??
+      place?.longitude ??
+      place?.properties?.longitude
+  );
 
-                          <tr>
-                        <th style="color: #0F4C75; text-align: left; border: 1px solid #ffff; font-weight: 700; width:120px;"><h3>Country:</h3></th>
-                        <td style="color: #0F4C75; text-align: left; border: 1px solid #ffff;">${
-                          mySelectedCountry.name
-                        }</td>
-                        </tr>
+  if (Number.isFinite(latitude) && Number.isFinite(longitude)) {
+    return { latitude, longitude };
+  }
 
-                           <tr>
-                        <th style="color: #0F4C75; text-align: left; border: 1px solid #ffff; font-weight: 700; width:120px;"><h3>Breeds:</h3></th>
-                        <td style="color: #0F4C75; text-align: left; border: 1px solid #ffff;">${
-                          allPetBreeds != 0 ? allPetBreeds.join(', ') : 'Null'
-                        }</td>
-                        </tr>
-
-            
-
-                         </table>
-                         
-                         
-                         </div>
-
-                      
-                         </div>
-                         </div>
-                         </div>`;
+  return null;
 }
+
+/**
+ * Convert a snake_case Overture category into a readable label.
+ *
+ * Example:
+ *   "bed_and_breakfast" -> "Bed And Breakfast"
+ */
+function formatLodgingCategory(category) {
+  if (!category) {
+    return 'Unknown';
+  }
+
+  return String(category)
+    .replace(/_/g, ' ')
+    .replace(/\b\w/g, character => character.toUpperCase());
+}
+
+/**
+ * Get the New Primary Category from the new Overture taxonomy.
+ *
+ * The February 2026 taxonomy PDF describes `New Primary Category` as the
+ * category column beneath the new hierarchy. Overture's current Places
+ * response represents that primary taxonomy category as
+ * `properties.taxonomy.primary`.
+ *
+ * The old `categories.primary` field is retained only as a compatibility
+ * fallback for older API responses.
+ */
+function getNewPrimaryCategory(place) {
+  return (
+    place?.properties?.taxonomy?.primary ??
+    place?.taxonomy?.primary ??
+    place?.properties?.categories?.primary ??
+    place?.categories?.primary ??
+    'unknown'
+  );
+}
+
+/**
+ * Haversine distance between two geographic points, returned in metres.
+ *
+ * This gives us a transparent client-side distance check in addition to the
+ * API's radius filter. It is also useful for showing "nearest lodging" in the
+ * insights panel.
+ */
+function calculateDistanceInMeters(
+  firstLatitude,
+  firstLongitude,
+  secondLatitude,
+  secondLongitude
+) {
+  const earthRadiusInMeters = 6371000;
+  const latitudeDifference =
+    ((secondLatitude - firstLatitude) * Math.PI) / 180;
+  const longitudeDifference =
+    ((secondLongitude - firstLongitude) * Math.PI) / 180;
+
+  const firstLatitudeInRadians = (firstLatitude * Math.PI) / 180;
+  const secondLatitudeInRadians = (secondLatitude * Math.PI) / 180;
+
+  const haversine =
+    Math.sin(latitudeDifference / 2) ** 2 +
+    Math.cos(firstLatitudeInRadians) *
+      Math.cos(secondLatitudeInRadians) *
+      Math.sin(longitudeDifference / 2) ** 2;
+
+  return (
+    2 *
+    earthRadiusInMeters *
+    Math.atan2(Math.sqrt(haversine), Math.sqrt(1 - haversine))
+  );
+}
+
+/**
+ * Normalise different possible Overture response shapes into an array.
+ */
+function getPlacesFromResponse(responseData) {
+  if (Array.isArray(responseData)) {
+    return responseData;
+  }
+
+  if (Array.isArray(responseData?.features)) {
+    return responseData.features;
+  }
+
+  if (Array.isArray(responseData?.places)) {
+    return responseData.places;
+  }
+
+  if (Array.isArray(responseData?.data)) {
+    return responseData.data;
+  }
+
+  return [];
+}
+
+/**
+ * Build the complete lodging insight model for one clicked Travel Manager
+ * place.
+ *
+ * The returned object is deliberately plain and readable. Keeping the
+ * calculation separate from the DOM rendering makes the feature much easier
+ * to test and maintain.
+ */
+function buildLodgingInsights(lodgingPlaces, selectedPlace) {
+  const selectedCoordinates = getPlaceCoordinates(selectedPlace);
+
+  const nearbyLodging = lodgingPlaces
+    .map(lodgingPlace => {
+      const lodgingCoordinates = getPlaceCoordinates(lodgingPlace);
+
+      if (!selectedCoordinates || !lodgingCoordinates) {
+        return {
+          place: lodgingPlace,
+          distanceInMeters: null,
+          category: getNewPrimaryCategory(lodgingPlace),
+        };
+      }
+
+      return {
+        place: lodgingPlace,
+        distanceInMeters: calculateDistanceInMeters(
+          selectedCoordinates.latitude,
+          selectedCoordinates.longitude,
+          lodgingCoordinates.latitude,
+          lodgingCoordinates.longitude
+        ),
+        category: getNewPrimaryCategory(lodgingPlace),
+      };
+    })
+    .filter(item => {
+      // If coordinates are available, enforce the radius again client-side.
+      // This prevents an unexpectedly broad API response from contaminating
+      // the statistics.
+      if (item.distanceInMeters === null) {
+        return true;
+      }
+
+      return item.distanceInMeters <= Number(lodgingRadiusInput.value);
+    })
+    .sort((first, second) => {
+      if (first.distanceInMeters === null) return 1;
+      if (second.distanceInMeters === null) return -1;
+      return first.distanceInMeters - second.distanceInMeters;
+    });
+
+  const categoryCounts = new Map();
+
+  nearbyLodging.forEach(item => {
+    categoryCounts.set(
+      item.category,
+      (categoryCounts.get(item.category) || 0) + 1
+    );
+  });
+
+  const totalLodgingPlaces = nearbyLodging.length;
+
+  const categoryBreakdown = Array.from(categoryCounts.entries())
+    .map(([category, count]) => ({
+      category,
+      displayName: formatLodgingCategory(category),
+      count,
+      percentage:
+        totalLodgingPlaces === 0 ? 0 : (count / totalLodgingPlaces) * 100,
+    }))
+    .sort((first, second) => second.count - first.count);
+
+  const distances = nearbyLodging
+    .map(item => item.distanceInMeters)
+    .filter(Number.isFinite)
+    .sort((first, second) => first - second);
+
+  return {
+    totalLodgingPlaces,
+    categoryBreakdown,
+    nearestLodgingDistance: distances.length > 0 ? distances[0] : null,
+    lodgingPlaces: nearbyLodging,
+  };
+}
+
+/**
+ * Render the lodging analysis into the clicked-place panel.
+ */
+function renderNearbyLodgeDetail(lodgingItem) {
+  const lodge = lodgingItem.place;
+  const address = lodge?.properties?.addresses?.[0] ?? {};
+  const lodgeName = lodge?.properties?.names?.primary ?? 'Unknown';
+  const lodgeCategory = formatLodgingCategory(lodgingItem.category);
+  const distance = Number.isFinite(lodgingItem.distanceInMeters)
+    ? `${Math.round(lodgingItem.distanceInMeters).toLocaleString()} m`
+    : 'Unavailable';
+
+  nearbyLodgeDetailPanel.innerHTML = `
+    <div class="nearby-lodge-detail-content">
+      <div class="nearby-lodge-detail-heading">
+        <span class="lodging-analysis-kicker">SELECTED NEARBY LODGE</span>
+        <h3>${lodgeName}</h3>
+      </div>
+
+      <table class="nearby-lodge-detail-table">
+        <tbody>
+          <tr>
+            <th>Place Name</th>
+            <td>${lodgeName}</td>
+          </tr>
+          <tr>
+            <th>Distance from selected place</th>
+            <td>${distance}</td>
+          </tr>
+          <tr>
+            <th>New Primary Category</th>
+            <td>${lodgeCategory}</td>
+          </tr>
+          <tr>
+            <th>Freeform</th>
+            <td>${address.freeform ?? 'Unknown'}</td>
+          </tr>
+          <tr>
+            <th>Locality</th>
+            <td>${address.locality ?? 'Unknown'}</td>
+          </tr>
+          <tr>
+            <th>Postal Code</th>
+            <td>${address.postcode ?? 'Unknown'}</td>
+          </tr>
+          <tr>
+            <th>Region</th>
+            <td>${address.region ?? 'Unknown'}</td>
+          </tr>
+          <tr>
+            <th>Country</th>
+            <td>${address.country ?? 'Unknown'}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  `;
+}
+
+/**
+ * Render every lodging place in the left-hand Nearby Lodges table.
+ *
+ * Each row stores its index in the `nearbyLodging` array. That keeps the
+ * click handler simple and avoids putting a large Overture object in HTML.
+ */
+function renderNearbyLodgesTable(lodgingPlaces) {
+  nearbyLodgesCount.textContent = `${lodgingPlaces.length.toLocaleString()} ${
+    lodgingPlaces.length === 1 ? 'place' : 'places'
+  }`;
+
+  if (lodgingPlaces.length === 0) {
+    nearbyLodgesTableBody.innerHTML = `
+      <tr>
+        <td colspan="3" class="nearby-lodges-empty">
+          No lodging places were found within this radius.
+        </td>
+      </tr>
+    `;
+    nearbyLodgeDetailPanel.innerHTML = `
+      <div class="nearby-lodge-detail-placeholder">
+        <span class="lodging-analysis-kicker">LODGE DETAILS</span>
+        <h3>No nearby lodge found</h3>
+        <p>Try increasing the radius to find more lodging places.</p>
+      </div>
+    `;
+    return;
+  }
+
+  nearbyLodgesTableBody.innerHTML = lodgingPlaces
+    .map((lodgingItem, index) => {
+      const lodgeName =
+        lodgingItem.place?.properties?.names?.primary ?? 'Unknown';
+      const category = formatLodgingCategory(lodgingItem.category);
+      const distance = Number.isFinite(lodgingItem.distanceInMeters)
+        ? `${Math.round(lodgingItem.distanceInMeters).toLocaleString()} m`
+        : 'Unavailable';
+
+      return `
+        <tr class="nearby-lodge-row" data-lodging-index="${index}" tabindex="0">
+          <td>${lodgeName}</td>
+          <td>${distance}</td>
+          <td>${category}</td>
+        </tr>
+      `;
+    })
+    .join('');
+
+  const firstLodge = lodgingPlaces[0];
+  renderNearbyLodgeDetail(firstLodge);
+
+  nearbyLodgesTableBody
+    .querySelectorAll('.nearby-lodge-row')
+    .forEach(row => {
+      const showLodgeDetails = () => {
+        const lodgingIndex = Number(row.dataset.lodgingIndex);
+        const selectedLodge = lodgingPlaces[lodgingIndex];
+
+        if (!selectedLodge) {
+          return;
+        }
+
+        nearbyLodgesTableBody
+          .querySelectorAll('.nearby-lodge-row')
+          .forEach(tableRow => tableRow.classList.remove('is-selected'));
+
+        row.classList.add('is-selected');
+        renderNearbyLodgeDetail(selectedLodge);
+      };
+
+      row.addEventListener('click', showLodgeDetails);
+      row.addEventListener('keydown', event => {
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault();
+          showLodgeDetails();
+        }
+      });
+    });
+
+  nearbyLodgesTableBody
+    .querySelector('.nearby-lodge-row')
+    ?.classList.add('is-selected');
+}
+
+/**
+ * Render the summary insights and the New Primary Category mix.
+ */
+function renderLodgingInsights(insights, radiusInMeters) {
+  const categoryRows =
+    insights.categoryBreakdown.length > 0
+      ? insights.categoryBreakdown
+          .map(
+            category => `
+              <tr>
+                <td class="lodging-category-name">${category.displayName}</td>
+                <td>${category.count}</td>
+                <td>${category.percentage.toFixed(1)}%</td>
+              </tr>
+            `
+          )
+          .join('')
+      : `
+          <tr>
+            <td colspan="3" class="lodging-empty-cell">
+              No lodging places were returned within this radius.
+            </td>
+          </tr>
+        `;
+
+  const topCategory = insights.categoryBreakdown[0];
+
+  lodgingAnalysisStatus.innerHTML = `
+    <div class="lodging-analysis-header">
+      <div>
+        <p class="lodging-analysis-kicker">L0 LODGING INSIGHTS</p>
+        <h3>Nearby lodging around this place</h3>
+        <p>
+          Radius: <strong>${Number(radiusInMeters).toLocaleString()} m</strong>
+        </p>
+      </div>
+      <div class="lodging-total-badge">
+        <strong>${insights.totalLodgingPlaces}</strong>
+        <span>lodging places</span>
+      </div>
+    </div>
+
+    <div class="lodging-insight-cards">
+      <article class="lodging-insight-card">
+        <span>Nearby lodging</span>
+        <strong>${insights.totalLodgingPlaces}</strong>
+      </article>
+
+      <article class="lodging-insight-card">
+        <span>Primary types</span>
+        <strong>${insights.categoryBreakdown.length}</strong>
+      </article>
+
+      <article class="lodging-insight-card">
+        <span>Nearest lodging</span>
+        <strong>
+          ${
+            insights.nearestLodgingDistance === null
+              ? '—'
+              : `${Math.round(insights.nearestLodgingDistance).toLocaleString()} m`
+          }
+        </strong>
+      </article>
+    </div>
+
+    <div class="lodging-top-insight">
+      ${
+        topCategory
+          ? `<strong>${topCategory.displayName}</strong> is the most common
+             New Primary Category nearby, representing
+             <strong>${topCategory.percentage.toFixed(1)}%</strong>
+             (${topCategory.count} of ${insights.totalLodgingPlaces}).`
+          : 'There is not enough nearby lodging data to identify a dominant category.'
+      }
+    </div>
+
+    <div class="lodging-breakdown-wrapper">
+      <div class="lodging-breakdown-heading">
+        <h4>New Primary Category mix</h4>
+        <span>Count + percentage of nearby L0 lodging</span>
+      </div>
+
+      <div class="lodging-table-scroll">
+        <table class="lodging-breakdown-table">
+          <thead>
+            <tr>
+              <th>New Primary Category</th>
+              <th>Count</th>
+              <th>Percentage</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${categoryRows}
+          </tbody>
+        </table>
+      </div>
+
+      <a class="nearby-lodges-link" href="#nearbyLodges">
+        Explore all Nearby Lodges →
+      </a>
+    </div>
+  `;
+
+  renderNearbyLodgesTable(insights.lodgingPlaces);
+}
+
+/**
+ * Fetch and analyse L0 lodging for the currently selected place.
+ */
+async function analyzeLodgingAroundSelectedPlace() {
+  if (!selectedPlaceForLodgingAnalysis) {
+    Notiflix.Notify.warning('Click a place first.');
+    return;
+  }
+
+  const radiusInMeters = Number(lodgingRadiusInput.value);
+
+  if (!Number.isFinite(radiusInMeters) || radiusInMeters < 50) {
+    Notiflix.Notify.warning('Enter a radius of at least 50 metres.');
+    return;
+  }
+
+  const coordinates = getPlaceCoordinates(selectedPlaceForLodgingAnalysis);
+
+  if (!coordinates) {
+    lodgingAnalysisStatus.innerHTML = `
+      <div class="lodging-analysis-error">
+        <strong>Location coordinates are unavailable.</strong>
+        <p>
+          Overture did not provide coordinates for this selected place, so
+          nearby lodging cannot be calculated.
+        </p>
+      </div>
+    `;
+    return;
+  }
+
+  lodgingAnalysisStatus.innerHTML = `
+    <div class="lodging-analysis-loading">
+      Searching Overture L0 lodging within
+      <strong>${radiusInMeters.toLocaleString()} m</strong>...
+    </div>
+  `;
+
+  analyzeLodgingButton.disabled = true;
+
+  try {
+    const response = await findLodgingNearPlace(
+      coordinates.latitude,
+      coordinates.longitude,
+      radiusInMeters
+    );
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    const responseData = await response.json();
+    const lodgingPlaces = getPlacesFromResponse(responseData);
+
+    const insights = buildLodgingInsights(
+      lodgingPlaces,
+      selectedPlaceForLodgingAnalysis
+    );
+
+    renderLodgingInsights(insights, radiusInMeters);
+  } catch (error) {
+    lodgingAnalysisStatus.innerHTML = `
+      <div class="lodging-analysis-error">
+        <strong>Unable to retrieve nearby lodging.</strong>
+        <p>
+          Check your network/API access and try the analysis again.
+        </p>
+      </div>
+    `;
+
+    Notiflix.Notify.failure('Could not load nearby lodging.');
+    console.error('Lodging analysis error:', error);
+  } finally {
+    analyzeLodgingButton.disabled = false;
+  }
+}
+
+analyzeLodgingButton.addEventListener('click', analyzeLodgingAroundSelectedPlace);
+
+// Expose the original place-click handler globally because the existing table
+// markup calls it through onclick="selectPlace(event)".
+window.selectPlace = event => {
+  const id = event.currentTarget.getAttribute('data-id');
+
+  selectedPlaceForLodgingAnalysis = placesArray.find(place => place.id === id);
+
+  const selectedPlace = selectedPlaceForLodgingAnalysis;
+  const selectedCountryDetails = Countries.find(
+    country => country.alpha_2 === selectedCountry
+  );
+
+  const placeCoordinates = getPlaceCoordinates(selectedPlace);
+  const primaryCategory = getNewPrimaryCategory(selectedPlace);
+  const address = selectedPlace?.properties?.addresses?.[0] ?? {};
+
+  placeDetails.innerHTML = `
+    <div class="selected-place-panel">
+      <div class="selected-place-summary">
+        <div class="selected-place-heading">
+          <span class="selected-place-eyebrow">SELECTED PLACE</span>
+          <h3>${selectedPlace?.properties?.names?.primary ?? 'Unknown'}</h3>
+        </div>
+
+        <table class="selected-place-table">
+          <tr>
+            <th>Category</th>
+            <td>${formatLodgingCategory(primaryCategory)}</td>
+          </tr>
+          <tr>
+            <th>Address</th>
+            <td>${address.freeform ?? 'Unknown'}</td>
+          </tr>
+          <tr>
+            <th>Locality</th>
+            <td>${address.locality ?? 'Unknown'}</td>
+          </tr>
+          <tr>
+            <th>Region</th>
+            <td>${address.region ?? 'Unknown'}</td>
+          </tr>
+          <tr>
+            <th>Postal Code</th>
+            <td>${address.postcode ?? 'Unknown'}</td>
+          </tr>
+          <tr>
+            <th>Country</th>
+            <td>${selectedCountryDetails?.name ?? address.country ?? 'Unknown'}</td>
+          </tr>
+          <tr>
+            <th>Coordinates</th>
+            <td>
+              ${
+                placeCoordinates
+                  ? `${placeCoordinates.latitude.toFixed(6)}, ${placeCoordinates.longitude.toFixed(6)}`
+                  : 'Unavailable'
+              }
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  `;
+
+  // Move the user directly to the insights area after clicking a place name.
+  // The flag remains above the place list, while the analysis becomes the
+  // immediate destination of the click.
+  lodgingAnalysisStatus.scrollIntoView({
+    behavior: 'smooth',
+    block: 'start',
+  });
+
+  analyzeLodgingAroundSelectedPlace();
+};
+
 
 countrySelector.addEventListener('change', event => {
   countryDogBreeds = [];
@@ -376,6 +839,7 @@ countrySelector.addEventListener('change', event => {
   allPetBreeds = [];
   //const countryName = Countries.find((country) => {return event.target.value === country.alpha_2});
   selectedCountry = event.target.value;
+  window.selectedCountryCode = selectedCountry;
   //console.log(selectedCountry);
   countryFlagImageWrapper.style.display = 'block';
   topCountryFlagImageWrapper.style.display = 'block';
@@ -386,10 +850,14 @@ countrySelector.addEventListener('change', event => {
   detailsArea.style.height = '500px';
   placeInnerContr.style.alignItems = "center";
   placeInnerContr.style.justifyContent = 'center';
-  placeDetails.innerHTML = `<div style="display: flex; align-items: center; justify-content: center; width: 100%; height:100%;">
-<div style="background-color: #49e2e6; color: #ffff; border: 1px solid #ffff; padding: 30px; border-radius: 10px; text-shadow: 3px 3px 20px #721111, 5px 5px 5px #000;">Click on a Place Name</div>
-</div>`;
-  Notiflix.Loading.hourglass('Fetching country Information...');
+  placeDetails.innerHTML = `
+  <div class="place-details-placeholder">Click on a Place Name</div>
+`;
+  
+   Notiflix.Loading.hourglass('Fetching country Information...', {
+     svgColor: '#FFD369',
+     fontFamily: 'DM Sans',
+   });
   findFlag(selectedCountry)
     .then(res => {
       if (!res.ok) {
@@ -504,10 +972,38 @@ function categoryEventListener(selector) {
     }
     detailsArea.scrollIntoView({
       behavior: 'smooth',
-      block: 'start', // or 'center', 'end', 'nearest'
+      block: 'start',
     });
-    //console.log('click');
-    Notiflix.Loading.hourglass('Loading data, please wait...');
+    // A new category search creates a new list of selectable places.
+    // Clear the previous lodging analysis so it cannot be mistaken for the
+    // newly loaded category.
+    selectedPlaceForLodgingAnalysis = null;
+    lodgingAnalysisStatus.innerHTML = `
+      <div class="lodging-analysis-placeholder">
+        Select a place from the new results to analyze nearby L0 lodging.
+      </div>
+    `;
+    nearbyLodgesCount.textContent = '0 places';
+    nearbyLodgesTableBody.innerHTML = `
+      <tr>
+        <td colspan="3" class="nearby-lodges-empty">
+          Select a place above to load nearby lodging.
+        </td>
+      </tr>
+    `;
+    nearbyLodgeDetailPanel.innerHTML = `
+      <div class="nearby-lodge-detail-placeholder">
+        <span class="lodging-analysis-kicker">LODGE DETAILS</span>
+        <h3>Select a nearby lodge</h3>
+        <p>The selected lodge's Overture details will appear here.</p>
+      </div>
+    `;
+
+  
+    Notiflix.Loading.hourglass('Loading data, please wait...', {
+      svgColor: '#FFD369',
+      fontFamily: 'DM Sans',
+    });
     findPlaces(event.target.value, selectedCountry)
       .then(res => {
         if (!res.ok) {
@@ -523,42 +1019,36 @@ function categoryEventListener(selector) {
     altLink.style.display = 'none';
     detailsArea.style.height = "fit-content";
     placeTable.style.display = 'block';
-        placeTable.style.borderCollapse = 'collapse';
-        placeTable.style.border = '3px solid #ffff';
-        placeTable.style.padding = '10px';
-        placeTable.style.borderRadius = '10px';
-        placeTable.style.backgroundColor = '#FFD369';
-        placeTable.style.color = '#49e2e6';
-        placeTable.style.color = '535px';
-        placeArea.style.alignItems = 'start';
-        placeArea.style.justifyContent = 'space-between';
-        placeTable.style.height = '300px';
-        placeTable.style.overflowX = 'auto';
-        placeTable.style.overflowY = 'auto';
-        placeTable.style.boxShadow = '0 4px 6px -1px #0000004d, 0 2px 4px -1px #0003, 0 10px 12px -6px #0006';
+        placeTable.className = 'place-results-table';
+        placeArea.className = 'place-results-area';
+        placeDetails.className = 'place-results-detail';
         placeDetails.style.display = 'block';
-        placeDetails.style.width = '600px';
-        placeDetails.style.height = '300px';
-        placeDetails.style.overflowX = 'auto';
-        placeDetails.style.overflowY = 'auto';
-        placeDetails.style.borderRadius = '10px';
-        placeDetails.style.border = '3px solid #ffff';
-        placeDetails.style.backgroundColor = '#FFD369';
-         placeDetails.style.boxShadow = 'rgba(0, 0, 0, 0.3) 0px 4px 6px -1px, rgba(0, 0, 0, 0.2) 0px 2px 4px -1px, rgba(0, 0, 0, 0.4) 0px 10px 12px -6px';
         event.target.value = '';
         //placeDetails.innerHTML = placeDetailsElements;
         
         
-    const foundPlaces = res.map((place) => {
-      if (place.properties.socials[0]) {
-        return `
-      <tr>
-                    <td style="color: #0F4C75; text-align: left; border: 1px solid #ffff; max-width: 400px; cursor: pointer;" onmouseover="this.style.background='#49e2e6';"
-  onmouseout="this.style.background='#FFD369';" data-id="${place.id}" onclick="selectPlace(event)">${place.properties.names.primary}</td>
-  
-                    <td style="color: #0F4C75; text-align: left; border: 1px solid #ffff;"><a href="${place.properties.socials[0]}" target='_blank'>CLICK HERE</a></td>
-      </tr>
-                  `;};
+    const foundPlaces = res.map(place => {
+      const placeName = place?.properties?.names?.primary ?? 'Unknown';
+      const socialLink = place?.properties?.socials?.[0];
+
+      return `
+        <tr>
+          <td
+            class="place-results-name"
+            data-id="${place.id}"
+            onclick="selectPlace(event)"
+          >
+            ${placeName}
+          </td>
+          <td class="place-results-social">
+            ${
+              socialLink
+                ? `<a href="${socialLink}" target="_blank" rel="noopener noreferrer">CLICK HERE</a>`
+                : '—'
+            }
+          </td>
+        </tr>
+      `;
     }).join('');
     if (foundPlaces.length !== 0) {
       placeTableBody.innerHTML = foundPlaces;
@@ -567,10 +1057,8 @@ function categoryEventListener(selector) {
     }
     else {
       placeTableBody.innerHTML = `<tr>
-                                  <td style="color: #49e2e6; text-align: center; border: 1px solid #ffff;">Null</td>
-                                  <td style="color: #49e2e6; text-align: center; border: 1px solid #ffff;">Null</td>
-                                  </tr>
-      `;
+        <td colspan="2" class="place-results-empty">No places found.</td>
+      </tr>`;
     }
   })
       .catch(error => {
@@ -611,69 +1099,3 @@ categoryEventListener(realEstateSelector);
 categoryEventListener(religiousOrganizationSelector);
 categoryEventListener(retailSelector);
 categoryEventListener(travelSelector);
-
-apiGenTableButton.addEventListener("click", async () => {
-  if ((keyName.value.trim() === "" || keyId.value.trim() === "" || keyMetaData.value.trim() === "")) {
-    Notiflix.Notify.warning('All feilds are required!');
-    return
-  }
-  Notiflix.Loading.hourglass('Creating Api Key, please wait...');
-  try {
-    const key = await createApiKey(
-      keyName.value.trim(),
-      keyId.value.trim(),
-      keyMetaData.value.trim()
-    );
-    localStorage.setItem('myApiKey', JSON.stringify(key));
-    Notiflix.Loading.remove();
-    Notiflix.Notify.success('API Key created and stored successfully!');
-    keySideEffects();
-  } catch (error) {
-    Notiflix.Loading.remove();
-    Notiflix.Notify.failure('Failed to create API Key');
-    console.error('Error creating API key:', error);
-  }
-});
-
-
-apiUseTableButton.addEventListener("click", async() => { 
-  if (keyValue.value.trim() === "") {
-   Notiflix.Notify.warning('Enter Api Key!');
-   return;
-  }
-  Notiflix.Loading.hourglass('Getting Images, please wait...');
-  
- try {
-    const Images = await getImages(keyValue.value.trim());
-    console.log('Images aquired:', Images);
-   apiDetailsArea.style.height = "fit-content";
-    const myImages = Images
-      .map(Image => {
-        return `
-        <li style="width: 370px; display: flex; flex-direction: column; align-items: center; justify-content: center; background-color: #ffd369; color: rgb(15, 76, 117); padding: 10px; border: 1px solid #ffff; border-radius: 10px;"><img src=${Image.link} style="width: 300px; height: 300px; border: 1px solid #ffff;"/> 
-        <span>${Image.name}</span></li>
-        `;
-      })
-     .join('');
-   
-   imageGallery.style.border = '1px solid #ffff';
-   imageGallery.style.padding = '20px';
-   imageGallery.style.borderRadius = '20px';
-   imageGallery.innerHTML = myImages;
-
-    Notiflix.Loading.remove();
-    Notiflix.Notify.success('View response in your browser console!');
-  } catch (error) {
-    Notiflix.Loading.remove();
-    Notiflix.Notify.failure('Failed to get Images');
-    console.error('Error getting Images:', error);
-  }
-
-});
-
-
-
-
-  
-
-

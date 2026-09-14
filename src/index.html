@@ -8,7 +8,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Amita:wght@400;700&family=Sansita+Swashed:wght@300..900&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Sacramento&family=Titan+One&display=swap" rel="stylesheet">  
     <link rel="stylesheet" href="./style.css">
-    <title>Overture Travel Manager</title>
+    <title>Overture Lodging Explorer</title>
     <style>
      .hide {
     display: none; 
@@ -20,38 +20,38 @@
       <div class="title-area">
       <div class= "logo-area">
         <spam class="image-wrapper">
-      <img class="logo-image" src="./images/coconut tree.png"/>
+      <img class="logo-image" src="./images/Logo.png"/>
       </spam>
-      <p class="title">Overture Travel Manager</p>
+      <p class="title">Overture Lodging Explorer</p>
       </div>
       </div>
 
 
       <div class="intro-area" >
-        <i>Discover amazing places to visit on your trip — whether you're looking for accommodation, sightseeing spots, or unique local experiences, we've got you covered. Check out our top five special hand picked tourists 
-          destinations <a href="#myAPI">"HERE"</a>.</i>
+        <div class="intro-area-text"><i>Explore Places. Discover Stays.</i>
+<i>Find remarkable places around the world and uncover the lodging opportunities nearby.</i></div>
       </div>
 
      <div class="navArea">
       <span class="navCover">
          <img
-          src="https://cdn-icons-png.flaticon.com/512/869/869869.png"
-          alt="Sun"
+          src="./images/Hero Animation.png"
+          alt="Animation"
           width="100"
-          class="sunAnimation"
+          class="HeroAnimation"
         />
     <nav>
       <ul class="nav-list">
         <li><a href="#selectors" class="nav-item">Selectors</a></li>
         <li><a href="#placeInfo" class="nav-item">Place Info</a></li>
-        <li><a href="#myAPI" class="nav-item">API Info</a></li>
+        <li><a href="#nearbyLodges" class="nav-item">Nearby Lodges</a></li>
       </ul>
     </nav>
      <img
-          src="https://cdn-icons-png.flaticon.com/512/869/869869.png"
-          alt="Sun"
+          src="./images/Hero Animation.png"
+          alt="Animation"
           width="100"
-          class="sunAnimation"
+          class="HeroAnimation"
         />
     </span>
       </div>
@@ -124,7 +124,7 @@
           <select class="country-select"></select>
         </div>
       <div class="intro-image-area">
-        <img class="intro-image" src="./images/someone-coding-a-geo-app.png" alt="someone-coding-a-geo-app"/>
+        <img class="intro-image" src="./images/Satisfied_Customer.png" alt="Satisfied_Customer"/>
       </div>
       </div>
        <div class="category-container">
@@ -190,75 +190,102 @@
         <div class="place-info" id="placeInfo">
           
           <div class="place-details">
-           <p class="place-info-title">Place Info</p>
+           <p class="place-info-title">Place Info + Nearby Lodging Insights</p>
+
+           <!--
+             The radius is intentionally global to the selected-place panel.
+             When a user clicks any place, the same radius is used automatically.
+             The "Analyze Lodging" button lets the user recalculate after
+             changing the radius without changing the original Travel Manager
+             category-search behaviour.
+           -->
+           <div class="lodging-radius-toolbar">
+             <div class="lodging-radius-copy">
+               <span class="lodging-analysis-kicker">L0 LODGING ANALYSIS</span>
+               <strong>Nearby lodging radius</strong>
+               <span>Distances are measured in metres from the clicked place.</span>
+             </div>
+
+             <div class="lodging-radius-form">
+               <label for="lodging-radius-input">Radius (m)</label>
+               <input
+                 id="lodging-radius-input"
+                 class="lodging-radius-input"
+                 type="number"
+                 min="50"
+                 max="50000"
+                 step="50"
+                 value="1000"
+               />
+               <button class="analyze-lodging-button" type="button">
+                 Analyze Lodging
+               </button>
+             </div>
+           </div>
+
+           <div class="lodging-analysis-status">
+             <div class="lodging-analysis-placeholder">
+               Select a place from the results below to automatically analyze
+               nearby L0 lodging.
+             </div>
+           </div>
+
            <div class="place-table-wrapper" id="placeDetails">
             <div class="countryFlagWrapper"></div>
             <a href="#selectors" class="place-alt-link">Select a Place Category</a>
             </div>
            </div>
           </div>
-        </div>
 
-        <div class="api-info" id="myAPI">
-          <div class="api-details">
-            <p class="api-info-title">API Info</p>
-           <div class="api-table-wrapper">
-
-            <div class="api-gen-table-wrapper">
-            <table class="api-gen-table" style="border-collapse: collapse;">
-              <caption style="color: rgb(15, 76, 117); background-color: #ffd369; font-family: Sacramento; font-size: 35px; border: 1px solid #ffff; font-weight: 700;">Create your API Key</caption>
-              <tr>
-                <th style="color: rgb(15, 76, 117); text-align: left; border: 1px solid #ffff; font-weight: 700;">API KEY NAME:</th>
-                <td style="color: rgb(15, 76, 117); text-align: left; border: 1px solid #ffff; padding: 5px;"><input class="keyName" title="Enter Key Name" placeholder="Enter Key Name" style="background-color: #ffd369; color: rgb(15, 76, 117); font-size: 14px; border: none; font-family: Comic Sans MS; font-weight: 700;"/></td>
-              </tr>
-              <tr>
-                <th style="color: rgb(15, 76, 117); text-align: left; border: 1px solid #ffff; font-weight: 700;">CUSTOM ACCOUNT ID:</th>
-                <td style="color: rgb(15, 76, 117); text-align: left; border: 1px solid #ffff; padding: 5px"><input class="keyId" title="Enter Custom Account ID" placeholder="Enter Custom Account ID" style="background-color: #ffd369; color: rgb(15, 76, 117); font-size: 14px; border: none; font-family: Comic Sans MS; font-weight: 700"/></td>
-              </tr>
-              <tr>
-                <th style="color: rgb(15, 76, 117); text-align: left; border: 1px solid #ffff; font-weight: 700;">CUSTOM META DATA:</th>
-                <td style="color: rgb(15, 76, 117); text-align: left; border: 1px solid #ffff; padding: 5px"><input class="keyMetaData" title="Enter Custom Meta Data" placeholder="Enter Custom Meta Data" style="background-color: #ffd369; color: rgb(15, 76, 117); font-size: 14px; border: none; font-family: Comic Sans MS; font-weight: 700"/></td>
-              </tr>
-            </table>
-            <button class="api-gen-table-wrapper-button" style="padding: 10px 5px; border-radius: 20px; font-family: Comic Sans MS; font-weight: 700; border: 1px solid #ffff; cursor: pointer;">Create API Key</button>
+        <!--
+          Nearby Lodges is the detailed companion to the lodging insights above.
+          The left table lists every lodging place found inside the selected
+          radius. The right panel is filled when one of those lodges is clicked.
+        -->
+        <section class="nearby-lodges-section" id="nearbyLodges">
+          <div class="nearby-lodges-details">
+            <div class="nearby-lodges-heading">
+              <span class="lodging-analysis-kicker">L0 LODGING DIRECTORY</span>
+              <h2>Nearby Lodges</h2>
+              <p>Click a lodge in the list to view its complete Overture address details.</p>
             </div>
 
+            <div class="nearby-lodges-layout">
+              <div class="nearby-lodges-list-panel">
+                <div class="nearby-lodges-panel-heading">
+                  <h3>Nearby lodging places</h3>
+                  <span class="nearby-lodges-count">0 places</span>
+                </div>
+                <div class="nearby-lodges-table-scroll">
+                  <table class="nearby-lodges-table">
+                    <thead>
+                      <tr>
+                        <th>Place Name</th>
+                        <th>Distance</th>
+                        <th>New Primary Category</th>
+                      </tr>
+                    </thead>
+                    <tbody class="nearby-lodges-table-body">
+                      <tr>
+                        <td colspan="3" class="nearby-lodges-empty">
+                          Select a place above to load nearby lodging.
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
 
-
-            <div class="api-view-table-wrapper"></div>
-            <div class="api-use-table-wrapper">
-                  <table class="api-gen-table" style="border-collapse: collapse;">
-              <caption style="color: rgb(15, 76, 117); background-color: #ffd369; font-family: Sacramento; font-size: 35px; border: 1px solid #ffff; font-weight: 700;">Use your API Key</caption>
-              <tr>
-                <th style="color: rgb(15, 76, 117); text-align: left; border: 1px solid #ffff; font-weight: 700;">API ENDPOINT:</th>
-                <td style="color: rgb(15, 76, 117); text-align: left; border: 1px solid #ffff; font-weight: 700; padding: 5px">https://overture-travel-manager-backend-vmhx.onrender.com/api/images/getImages</td>
-              </tr>
-              <tr>
-                <th style="color: rgb(15, 76, 117); text-align: left; border: 1px solid #ffff; font-weight: 700;">x-api-key:</th>
-                <td style="color: rgb(15, 76, 117); text-align: left; border: 1px solid #ffff; font-weight: 700; padding: 5px"><input class="keyValue" title="Enter Api Key" placeholder="Enter Api Key" style="background-color: #ffd369; width: 100%; color: rgb(15, 76, 117); font-size: 14px; border: none; font-family: Comic Sans MS; font-weight: 700"/></td>
-              </tr>
-              <tr>
-                <th style="color: rgb(15, 76, 117); text-align: left; border: 1px solid #ffff; font-weight: 700;">REQUEST METHOD:</th>
-                <td style="color: rgb(15, 76, 117); text-align: left; border: 1px solid #ffff; font-weight: 700; padding: 5px">GET</td>
-              </tr>
-               <tr>
-                <th style="color: rgb(15, 76, 117); text-align: left; border: 1px solid #ffff; font-weight: 700;">REMARK:</th>
-                <td style="color: rgb(15, 76, 117); text-align: left; border: 1px solid #ffff; font-weight: 700; padding: 5px">Feel free to try it out on Postman, also check out the json response in your browser console</td>
-              </tr>
-            </table>
-            <button class="api-use-table-wrapper-button" style="padding: 10px 5px; border-radius: 20px; font-family: Comic Sans MS; font-weight: 700; border: 1px solid #ffff; cursor: pointer;">Get Images</button>
+              <div class="nearby-lodge-detail-panel">
+                <div class="nearby-lodge-detail-placeholder">
+                  <span class="lodging-analysis-kicker">LODGE DETAILS</span>
+                  <h3>Select a nearby lodge</h3>
+                  <p>The selected lodge's Overture details will appear here.</p>
+                </div>
+              </div>
             </div>
-            <div class="image-gallery-wrapper">
-             <ul class="image-gallery">
-
-             </ul>
-            </div>
-         
-            
-            
-           </div>
           </div>
-        </div>
+        </section>
 
 
     </div>
