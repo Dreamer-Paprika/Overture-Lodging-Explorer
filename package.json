@@ -3,10 +3,10 @@
   "version": "2.0.0",
   "type": "module",
   "description": "Overture Lodging Explorer",
-  "homepage": "https://Dreamer-Paprika.github.io/Overture-Travel-Manager/",
+  "homepage": "https://Dreamer-Paprika.github.io/Overture-Lodging-Explorer/",
   "scripts": {
     "start": "parcel src/*.html --no-cache",
-    "build": "parcel build src/*.html --public-url /Overture-Travel-Manager/"
+    "build": "parcel build src/*.html --public-url /Overture-Lodging-Explorer/"
   },
   "repository": {
     "type": "git",
