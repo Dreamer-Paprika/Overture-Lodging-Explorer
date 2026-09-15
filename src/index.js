@@ -820,7 +820,7 @@ window.selectPlace = event => {
 countrySelector.addEventListener('change', event => {
   
 
-  allPetBreeds = [];
+  
   //const countryName = Countries.find((country) => {return event.target.value === country.alpha_2});
   selectedCountry = event.target.value;
   window.selectedCountryCode = selectedCountry;
