@@ -1,8 +1,7 @@
 import Notiflix from 'notiflix';
 import { findPlaces, findLodgingNearPlace } from './places-api.js';
 import { findFlag } from './country-flag.js';
-import { fetchCatBreeds } from './cat-api.js';
-import { fetchDogBreeds } from './dog-api.js';
+
 
 import Countries from './countries_sorted_alphabetical.json';
 
@@ -165,21 +164,12 @@ placeDetails.innerHTML = `
 `;
 
 
-let dogBreeds;
-let catBreeds;
+
 let selectedCountry = null;
 
 let placesArray;
 
-let countryDogBreeds;
 
-let countryCatBreeds;
-
-let countryDogBreedsElement;
-
-let countryCatBreedsElement;
-
-let allPetBreeds;
 
 // -----------------------------------------------------------------------------
 // OVERTURE LODGING EXPLORER
@@ -882,80 +872,7 @@ countrySelector.addEventListener('change', event => {
       console.error(`Error message ${error}`);
     });
 
-  
-   fetchDogBreeds()
-     .then(response => {
-       if (!response.ok) {
-         throw new Error(`HTTP error! Status: ${response.status}`);
-       }
-
-       return response.json();
-     })
-     .then(users => {
-       //Notiflix.Loading.remove();
-       dogBreeds = users;
-       //console.log(dogBreeds);
-
-       countryDogBreeds = dogBreeds.filter(
-         breed => breed.country_code === selectedCountry
-       );
-
-       countryDogBreedsElement = countryDogBreeds.map(breed => {
-         return `<span>${breed.name}</span>`;
-       });
-
-       //console.log(countryDogBreedsElement.join(', '));
-
-       /*countryBreeds = dogBreeds.filter(breed => {
-         if (breed.country_code === selectedCountry) {
-           console.log(breed.name);
-           return;
-         }*/
-       //console.log(countryBreeds.name.join(','));
-     })
-     .catch(error => {
-       Notiflix.Loading.remove();
-       Notiflix.Notify.failure('Cannot find Dog Breeds!');
-
-       console.error(`Error message ${error}`);
-     });
-
-     fetchCatBreeds()
-       .then(response => {
-         if (!response.ok) {
-           throw new Error(`HTTP error! Status: ${response.status}`);
-         }
-         const str = response.json();
-         //console.log(str);
-         return str;
-       })
-       .then(users => {
-         Notiflix.Loading.remove();
-         catBreeds = users;
-         //console.log(catBreeds);
-
-         countryCatBreeds = catBreeds.filter(
-           breed => breed.country_code === selectedCountry
-         );
-
-         countryCatBreedsElement = countryCatBreeds.map((breed) => {
-           return `<span>${breed.name}</span>`;
-         });
-
-         //console.log(countryCatBreedsElement.join(', '));
-
-         allPetBreeds = [...countryCatBreedsElement, ...countryDogBreedsElement];
-
-         //console.log(allPetBreeds);
-       })
-       .catch(error => {
-         Notiflix.Loading.remove();
-         Notiflix.Notify.failure(
-           'Cannot find Cat Breeds!'
-         );
-
-         console.error(`Error message ${error}`);
-       });
+     
        
      })
 
