@@ -818,13 +818,7 @@ window.selectPlace = event => {
 
 
 countrySelector.addEventListener('change', event => {
-  countryDogBreeds = [];
-
-  countryCatBreeds = [];
-
-  countryDogBreedsElement = [];
-
-  countryCatBreedsElement = [];
+  
 
   allPetBreeds = [];
   //const countryName = Countries.find((country) => {return event.target.value === country.alpha_2});
@@ -862,6 +856,7 @@ countrySelector.addEventListener('change', event => {
       countryFlagImageWrapper.innerHTML = `<img src="${countryFlag.rectangle_image_url}" alt='Country flag' style="height: 200px">`;
       topCountryFlagImageWrapper.innerHTML = `<img src="${countryFlag.rectangle_image_url}" alt='Country flag' style="height: 200px">`;
       Notiflix.Notify.success('Country Information retreived');
+      Notiflix.Loading.remove();
     })
     .catch(error => {
       Notiflix.Loading.remove();
