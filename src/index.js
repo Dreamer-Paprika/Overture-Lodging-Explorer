@@ -854,8 +854,8 @@ countrySelector.addEventListener('change', event => {
       
       console.log(res);
       countryFlag = res;
-      countryFlagImageWrapper.innerHTML = `<img src="${countryFlag.rectangle_image_url}" alt='Country flag' style="height: 200px">`;
-      topCountryFlagImageWrapper.innerHTML = `<img src="${countryFlag.rectangle_image_url}" alt='Country flag' style="height: 200px">`;
+      countryFlagImageWrapper.innerHTML = `<img src="${res.rectangle_image_url}" alt='Country flag' style="height: 200px">`;
+      topCountryFlagImageWrapper.innerHTML = `<img src="${res.rectangle_image_url}" alt='Country flag' style="height: 200px">`;
       Notiflix.Notify.success('Country Information retreived');
       Notiflix.Loading.remove();
     })
