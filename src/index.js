@@ -53,6 +53,7 @@ const retailSelector = document.querySelector('.retail-select');
 const publicServiceAndGovernmentSelector = document.querySelector('.publicServiceAndGovernment-select');
 const travelSelector = document.querySelector('.travel-select');
 const countrySelector = document.querySelector('.country-select');
+let countryFlag;
 
 
 
@@ -851,7 +852,7 @@ countrySelector.addEventListener('change', event => {
     })
     .then(res => {
       
-      //console.log(res);
+      console.log(res);
       countryFlag = res;
       countryFlagImageWrapper.innerHTML = `<img src="${countryFlag.rectangle_image_url}" alt='Country flag' style="height: 200px">`;
       topCountryFlagImageWrapper.innerHTML = `<img src="${countryFlag.rectangle_image_url}" alt='Country flag' style="height: 200px">`;
