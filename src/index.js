@@ -28,7 +28,7 @@ import retailCategories from './retail.json';
 import publicServiceAndGovernmentCategories from './public_service_and_government.json';
 import travelCategories from './travel.json';
 
-
+let countryFlag;
 const countryFlagImageWrapper = document.querySelector('.countryFlagWrapper');
 const topCountryFlagImageWrapper = document.querySelector('.topCountryFlagWrapper');
 const accommodationSelector = document.querySelector('.accomodation-select');
@@ -53,7 +53,7 @@ const retailSelector = document.querySelector('.retail-select');
 const publicServiceAndGovernmentSelector = document.querySelector('.publicServiceAndGovernment-select');
 const travelSelector = document.querySelector('.travel-select');
 const countrySelector = document.querySelector('.country-select');
-let countryFlag;
+
 
 
 
